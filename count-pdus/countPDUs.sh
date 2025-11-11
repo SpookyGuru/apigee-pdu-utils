@@ -67,7 +67,15 @@ for ORG in "${ORGS[@]}"; do
     
     # --- Get a list of Environments for this Organization ---
     # The API returns a simple JSON array of environment names, e.g., ["prod", "test"]
-    ENVS_JSON=$(curl -s -H "$AUTH_HEADER" "${API_BASE}/organizations/${ORG}/environments")
+    ENVS_JSON=$(curl -s --fail-with-body -H "$AUTH_HEADER" "${API_BASE}/organizations/${ORG}/environments")
+    RETURN_CODE=$?
+
+    # Check the curl return code. Since this is the first call, it will probably be the most like to fail
+    if [ $RETURN_CODE -ne 0 ]; then
+        echo "Error getting Environments: curl command failed with exit status $RETURN_CODE"
+        echo "curl output: $ENVS_JSON"
+	exit 1
+    fi
 
     # Check if any environments were returned
     if [ -z "$ENVS_JSON" ] || [ "$(echo "$ENVS_JSON" | jq 'length')" -eq 0 ]; then
