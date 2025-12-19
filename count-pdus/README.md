@@ -4,6 +4,8 @@ In [Apigee](https://cloud.google.com/apigee), a [Proxy Deployment Unit (PDU)](ht
 
 This utility counts all the proxy and shared flow deployments, in all Environments and Instances (regions), across all provided Organizations.
 
+**Currently this utility only supports Apigee X, not Apigee Hybrid**
+
 # Usage
 The script uses your supplied token to make API calls to retrieve the deployment counts. The only other argument is one or more Apigee Organization names (GCP Project IDs).  The simplest way to invoke the script is by using the gcloud command to assign the access token to a variable, like this:
 
